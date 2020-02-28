@@ -58,12 +58,6 @@ void matrix_div_s(matrix_t *dest, const matrix_t *matrix, float scalar);
  * Solving linear equations using QR decomposition *
  ***************************************************/
 
-// Takes two columns vectors, v and u, of size n.
-// Performs v = v - dot(u, v) * u,
-// where dot(u,v) has already been computed
-// u is assumed to be an unit vector.
-static void subtract_projection(float *v, const float *u, float dot, int n);
-
 void matrix_qr_decomposition(matrix_t *q, matrix_t *r, const matrix_t *matrix, int reorthogonalize);
 
 void matrix_solve(matrix_t *dest, const matrix_t *q, const matrix_t *r, const matrix_t *matrix);
