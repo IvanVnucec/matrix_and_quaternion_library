@@ -41,7 +41,7 @@ void matrix_mul(matrix_t *dest, const matrix_t *a, const matrix_t *b)
     
     // If dest and input matrices alias, we have to use a temp matrix.
     matrix_t tmp;
-    fa16_unalias(dest, (void**)&a, (void**)&b, &tmp, sizeof(matrix_t));
+    array_unalias(dest, (void**)&a, (void**)&b, &tmp, sizeof(matrix_t));
     
     if (a->columns != b->rows)
         return;
@@ -53,7 +53,7 @@ void matrix_mul(matrix_t *dest, const matrix_t *a, const matrix_t *b)
     {
         for (column = 0; column < dest->columns; column++)
         {
-            dest->data[row][column] = fa16_dot(
+            dest->data[row][column] = array_dot(
                 &a->data[row][0], 1,
                 &b->data[0][column], MATRIX_MAX_SIZE,
                 a->columns);
@@ -70,7 +70,7 @@ void matrix_mul_at(matrix_t *dest, const matrix_t *at, const matrix_t *b)
     
     // If dest and input matrices alias, we have to use a temp matrix.
     matrix_t tmp;
-    fa16_unalias(dest, (void**)&at, (void**)&b, &tmp, sizeof(tmp));
+    array_unalias(dest, (void**)&at, (void**)&b, &tmp, sizeof(tmp));
     
     if (at->rows != b->rows)
         return;
@@ -82,7 +82,7 @@ void matrix_mul_at(matrix_t *dest, const matrix_t *at, const matrix_t *b)
     {
         for (column = 0; column < dest->columns; column++)
         {
-            dest->data[row][column] = fa16_dot(
+            dest->data[row][column] = array_dot(
                 &at->data[0][row], MATRIX_MAX_SIZE,
                 &b->data[0][column], MATRIX_MAX_SIZE,
                 at->rows);
@@ -96,7 +96,7 @@ void matrix_mul_bt(matrix_t *dest, const matrix_t *a, const matrix_t *bt)
     
     // If dest and input matrices alias, we have to use a temp matrix.
     matrix_t tmp;
-    fa16_unalias(dest, (void**)&a, (void**)&bt, &tmp, sizeof(tmp));
+    array_unalias(dest, (void**)&a, (void**)&bt, &tmp, sizeof(tmp));
     
     if (a->columns != bt->columns)
         return;
@@ -108,7 +108,7 @@ void matrix_mul_bt(matrix_t *dest, const matrix_t *a, const matrix_t *bt)
     {
         for (column = 0; column < dest->columns; column++)
         {
-            dest->data[row][column] = fa16_dot(
+            dest->data[row][column] = array_dot(
                 &a->data[row][0], 1,
                 &bt->data[column][0], 1,
                 a->columns);
@@ -288,7 +288,7 @@ void matrix_qr_decomposition(matrix_t *q, matrix_t *r, const matrix_t *matrix, i
                 float *v = &q->data[0][j];
                 float *u = &q->data[0][i];
 
-                dot = fa16_dot(v, stride, u, stride, n);
+                dot = array_dot(v, stride, u, stride, n);
                 subtract_projection(v, u, dot, n);
 
                 r->data[i][j] += dot;
@@ -296,7 +296,7 @@ void matrix_qr_decomposition(matrix_t *q, matrix_t *r, const matrix_t *matrix, i
         }
 
         // Normalize the row in q
-        norm = fa16_norm(&q->data[0][j], stride, n);
+        norm = array_norm(&q->data[0][j], stride, n);
         r->data[j][j] = norm;
 
         if (norm < 0.00007629f && norm > -0.00007629f)
@@ -437,7 +437,7 @@ void matrix_invert_lt(matrix_t *dest, const matrix_t *matrix)
 
     // If dest and input matrices alias, we have to use a temp matrix.
     matrix_t tmp;
-    fa16_unalias(dest, (void **)&matrix, (void **)&matrix, &tmp, sizeof(tmp));
+    array_unalias(dest, (void **)&matrix, (void **)&matrix, &tmp, sizeof(tmp));
 
     // TODO reorder these operations to avoid cache misses
 

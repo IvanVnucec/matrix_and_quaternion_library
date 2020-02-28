@@ -32,7 +32,7 @@ void v3d_div_s(v3d_t *dest, const v3d_t *a, float b)
 // Norm
 float v3d_norm(const v3d_t *a)
 {
-    return fa16_norm(&a->x, &a->y - &a->x, 3);
+    return array_norm(&a->x, &a->y - &a->x, 3);
 }
 
 void v3d_normalize(v3d_t *dest, const v3d_t *a)
@@ -43,14 +43,14 @@ void v3d_normalize(v3d_t *dest, const v3d_t *a)
 // Dot product
 float v3d_dot(const v3d_t *a, const v3d_t *b)
 {
-    return fa16_dot(&a->x, &a->y - &a->x, &b->x, &b->y - &b->x, 3);
+    return array_dot(&a->x, &a->y - &a->x, &b->x, &b->y - &b->x, 3);
 }
 
 // Cross product
 void v3d_cross(v3d_t *dest, const v3d_t *a, const v3d_t *b)
 {
     v3d_t tmp;
-    fa16_unalias(dest, (void**)&a, (void**)&b, &tmp, sizeof(tmp));
+    array_unalias(dest, (void**)&a, (void**)&b, &tmp, sizeof(tmp));
     
     dest->x = a->y*b->z - a->z*b->y;
     dest->y = a->z*b->x - a->x*b->z;
