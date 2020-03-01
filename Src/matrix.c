@@ -472,3 +472,58 @@ void matrix_invert_lt(matrix_t *dest, const matrix_t *matrix)
         }
     }
 }
+
+
+void matrix_copy(matrix_t *c, const matrix_t *a) {
+    memcpy(c, a, sizeof(matrix_t));
+
+    return;
+}
+
+
+void matrix_horzcat(matrix_t *c, const matrix_t *a, const matrix_t *b) {
+    int i, j;
+
+    if (a->rows != b->rows) {
+        return;
+    }
+
+    matrix_copy(c, a);
+
+    c->columns = a->columns + b->columns;
+    if (c->columns > MATRIX_MAX_SIZE) {
+        return;
+    }
+
+    for (i = 0; i < c->rows; i++) {
+        for (j = a->columns; j < c->columns; j++) {
+            c->data[i][j] = b->data[i][j - a->columns];
+        }
+    }
+
+    return;
+}
+
+
+void matrix_vertcat(matrix_t *c, const matrix_t *a, const matrix_t *b) {
+    int i, j;
+
+    if (a->columns != b->columns) {
+        return;
+    }
+
+    matrix_copy(c, a);
+
+    c->rows = a->rows + b->rows;
+    if (c->rows > MATRIX_MAX_SIZE) {
+        return;
+    }
+
+    for (i = a->rows; i < c->rows; i++) {
+        for (j = 0; j < c->columns; j++) {
+            c->data[i][j] = b->data[i-a->rows][j];
+        }
+    }
+
+    return;
+}

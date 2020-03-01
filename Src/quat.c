@@ -127,14 +127,14 @@ void quat_to_matrix(matrix_t *dest, const quat_t *q)
     dest->data[1][1] = 1.0f - 2.0f * (q->b)*(q->b) + (q->d)*(q->d);
     dest->data[2][2] = 1.0f - 2.0f * (q->b)*(q->b) + (q->c)*(q->c);
     
-    dest->data[1][0] = 2 * ((q->b)*(q->c) + (q->a)*(q->d));
-    dest->data[0][1] = 2 * ((q->b)*(q->c) - (q->a)*(q->d));
+    dest->data[1][0] = 2.0f * ((q->b)*(q->c) + (q->a)*(q->d));
+    dest->data[0][1] = 2.0f * ((q->b)*(q->c) - (q->a)*(q->d));
 
-    dest->data[2][0] = 2 * ((q->b)*(q->d) - (q->a)*(q->c));
-    dest->data[0][2] = 2 * ((q->b)*(q->d) + (q->a)*(q->c));
+    dest->data[2][0] = 2.0f * ((q->b)*(q->d) - (q->a)*(q->c));
+    dest->data[0][2] = 2.0f * ((q->b)*(q->d) + (q->a)*(q->c));
     
-    dest->data[2][1] = 2 * ((q->c)*(q->d) + (q->a)*(q->b));
-    dest->data[1][2] = 2 * ((q->c)*(q->d) - (q->a)*(q->b));
+    dest->data[2][1] = 2.0f * ((q->c)*(q->d) + (q->a)*(q->b));
+    dest->data[1][2] = 2.0f * ((q->c)*(q->d) - (q->a)*(q->b));
 }
 
 

@@ -25,23 +25,20 @@ void print_vector(v3d_t v) {
 }
 
 int main(void) {
-    v3d_t vector = {1.0f, 2.0f, 3.0f};
-    quat_t quaternion = {1.0f, 2.0f, 3.0f, 4.0f};
-    matrix_t matrix = {3, 3, {{2, -1, 0}, {-1, 2, -1}, {0, -1, 2}}};
-    matrix_t matrix2 = {3, 3};
+    //v3d_t vector = {1.0f, 2.0f, 3.0f};
+    //quat_t quaternion = {1.0f, 2.0f, 3.0f, 4.0f};
+    matrix_t matrix1 = {3, 3, {{2, -1, 0}, {-1, 2, -1}, {0, -1, 2}}};
+    matrix_t matrix2 = {3, 3, {{1, 0, -1}, {0, 1, 0}, {1, 2, 3}}};
+    matrix_t matrix3;
 
-    print_matrix(matrix);
-
-    matrix_cholesky(&matrix2, &matrix);
-    print_matrix(matrix2);
-    matrix_invert_lt(&matrix2, &matrix2);
+    print_matrix(matrix1);
     print_matrix(matrix2);
 
-    matrix_mul_bt(&matrix, &matrix, &matrix2);
+    matrix_horzcat(&matrix3, &matrix1, &matrix2);
+    print_matrix(matrix3);
 
-    print_vector(vector);
-    print_quaternion(quaternion);
-    print_matrix(matrix);
+    matrix_vertcat(&matrix3, &matrix1, &matrix2);
+    print_matrix(matrix3);
     
     return 0;
 }

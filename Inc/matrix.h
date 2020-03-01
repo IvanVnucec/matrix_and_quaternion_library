@@ -73,4 +73,9 @@ void matrix_cholesky(matrix_t *dest, const matrix_t *matrix);
 
 void matrix_invert_lt(matrix_t *dest, const matrix_t *matrix);
 
+
+void matrix_horzcat(matrix_t *c, const matrix_t *a, const matrix_t *b);
+
+void matrix_vertcat(matrix_t *c, const matrix_t *a, const matrix_t *b);
+
 #endif /* __MATRIX_H__ */
